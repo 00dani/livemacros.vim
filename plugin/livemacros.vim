@@ -10,10 +10,15 @@ let g:loaded_livemacros = 1
 
 exec expand("rubyfile <sfile>:p:h/livemacros.rb")
 
-command Livemacro :call StartLivemacro()
+command -nargs=? Livemacro :call StartLivemacro(<f-args>)
 
-function! StartLivemacro()
-	ruby start_livemacro
+function! StartLivemacro(...)
+	if a:0 > 0
+		let l:register = a:1
+	else
+		let l:register = 'l'
+	endif
+	exe 'ruby start_livemacro "'.l:register.'"'
 endfunction
 function! UpdateLivemacro()
 	ruby update_livemacro

@@ -29,12 +29,12 @@ def augroup group, &block
   VIM::command ":augroup END"
 end
 
-def start_livemacro
+def start_livemacro register
   source = current_window
 
   VIM::command ":below 1new --livemacro--"
   VIM::command ":setlocal buftype=nofile bufhidden=delete noswapfile nobuflisted noeol"
-  VIM::command ":silent! put! l"
+  VIM::command ":silent! put! #{register}"
   VIM::command ":$d"
   augroup "livemacro" do
     VIM::command ":autocmd CursorMoved,InsertLeave <buffer> :call UpdateLivemacro()"
@@ -44,6 +44,7 @@ def start_livemacro
   lm_win = current_window
   lm_win.extend(Module.new do |m|
     define_method :source do source end
+    define_method :register do register end
     attr_accessor :needs_undo
   end)
   lm_win.needs_undo = false
@@ -52,20 +53,20 @@ end
 def update_livemacro
   lm_win = current_window
 
-  old = VIM::evaluate("@l").chomp
+  old = VIM::evaluate("@#{lm_win.register}").chomp
   new = lm_win.buffer[1].chomp
   if old == new
     return
   end
 
-  VIM::command ":let @l = \"#{escape new}\""
+  VIM::command ":let @#{lm_win.register} = \"#{escape new}\""
   switch_to_window lm_win.source
   if lm_win.needs_undo
     VIM::command ":undo"
   else
     lm_win.needs_undo = true
   end
-  VIM::command ":normal! @l"
+  VIM::command ":normal! @#{lm_win.register}"
 
   switch_to_window lm_win
 end
