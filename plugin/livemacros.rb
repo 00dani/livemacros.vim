@@ -16,12 +16,6 @@ def switch_to_window w
   VIM::command "#{w.number}wincmd w"
 end
 
-def escape str
-  str
-    .gsub(/\\/, "\\\\")
-    .gsub(/"/,  "\\\"")
-end
-
 def augroup group, &block
   VIM::command ":augroup #{group}"
   VIM::command ':autocmd!'
@@ -59,7 +53,7 @@ def update_livemacro
     return
   end
 
-  VIM::command ":let @#{lm_win.register} = \"#{escape new}\""
+  VIM::command ":let @#{lm_win.register} = #{new.inspect}"
   switch_to_window lm_win.source
   if lm_win.needs_undo
     VIM::command ":undo"
