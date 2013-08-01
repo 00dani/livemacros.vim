@@ -16,13 +16,15 @@ function! StartLivemacro(...)
 	if a:0 > 0
 		let l:register = a:1
 	else
-		let l:register = 'l'
+		let l:register = v:register
 	endif
-	exe 'ruby start_livemacro "'.l:register.'"'
+	ruby start_livemacro VIM::evaluate('l:register')
 endfunction
+
 function! UpdateLivemacro()
 	ruby update_livemacro
 endfunction
+
 function! CleanupLivemacro()
 	ruby cleanup_livemacro
 endfunction
