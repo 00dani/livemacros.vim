@@ -34,6 +34,7 @@ def start_livemacro register
     VIM::command ":autocmd CursorMoved,InsertLeave <buffer> :call UpdateLivemacro()"
     VIM::command ":autocmd BufWinLeave <buffer> :call CleanupLivemacro()"
   end
+  VIM::command ":startinsert"
 
   lm_win = current_window
   lm_win.extend(Module.new do |m|
