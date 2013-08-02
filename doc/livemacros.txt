@@ -54,8 +54,8 @@ COMMANDS                                                *livemacros-commands*
                                                             *:LivemacroCancel*
 :LivemacroCancel
   While writing a livemacro, return to the original buffer, deleting the
-  livemacro in progress. The original contents of the specified register (from
-  before the livemacro started) will be restored.
+  livemacro in progress. The previous state of the original buffer and the
+  register that stored the livemacro will both be restored.
 
 =============================================================================
 MAPPINGS                                                *livemacros-mappings*
