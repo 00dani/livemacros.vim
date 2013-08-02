@@ -23,20 +23,27 @@ def augroup group, &block
   VIM::command ":augroup END"
 end
 
-def start_livemacro register
-  source = current_window
-
+def spawn_livemacro_window register
   VIM::command ":below 1new --livemacro--"
   VIM::command ":setlocal buftype=nofile bufhidden=delete noswapfile nobuflisted noeol"
   VIM::command ":silent! put! #{register}"
   VIM::command ":$d"
+  bind_livemacro_window_autocmds
+  return current_window
+end
+
+def bind_livemacro_window_autocmds
   augroup "livemacro" do
     VIM::command ":autocmd CursorMoved,InsertLeave <buffer> :call UpdateLivemacro()"
     VIM::command ":autocmd BufWinLeave <buffer> :call CleanupLivemacro()"
   end
-  VIM::command ":startinsert"
+end
 
-  lm_win = current_window
+
+def start_livemacro register
+  source = current_window
+
+  lm_win = spawn_livemacro_window register
   lm_win.extend(Module.new do |m|
     define_method :source do source end
     define_method :register do register end
