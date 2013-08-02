@@ -5,7 +5,9 @@
 INTRO                                                      *livemacros-intro*
 
 Write and refine a Vim macro in a regular buffer, with a live preview of the
-macro's results when on your original buffer.
+macro's results when on your original buffer. When you're done writing a
+macro, just close the livemacro window, and the macro will be saved in a
+register ready to use.
 
 Simple usage: >
   "m:Livemacro<CR>
@@ -48,6 +50,7 @@ COMMANDS                                                *livemacros-commands*
   Note that this command forces the macro to be reapplied to the source
   buffer; normally, livemacros will not reapply unless the buffer has actually
   been changed.
+
                                                             *:LivemacroCancel*
 :LivemacroCancel
   While writing a livemacro, return to the original buffer, deleting the
