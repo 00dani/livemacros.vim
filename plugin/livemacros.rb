@@ -79,6 +79,7 @@ class Livemacro
   end
 
   def cancel
+    revert
     self.register = @initial_content
   end
 
