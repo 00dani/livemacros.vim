@@ -1,0 +1,56 @@
+*livemacros.txt*	Write Vim macros in a buffer with live preview	2013-08-02
+*livemacros.vim*
+
+=============================================================================
+INTRO                                                      *livemacros-intro*
+
+Write and refine a Vim macro in a regular buffer, with a live preview of the
+macro's results when on your original buffer.
+
+Simple usage: >
+  "m:Livemacro<CR>
+  ^3wdwj<ESC>:q
+  @m@m@m
+<
+
+=============================================================================
+OPTIONS                                                  *livemacros-options*
+
+livemacros.vim has only one option.
+
+                                                      *'g:loaded_livemacros'*
+Use this to disable the plugin completely: >
+  let g:loaded_livemacros = 1
+<
+
+=============================================================================
+COMMANDS                                                *livemacros-commands*
+
+                                                                  *:Livemacro*
+["x]:Livemacro [register]
+  Start a livemacro to be run upon the current buffer, stored in the register
+  specified with either "x |quote| or [register] ("x takes precedence). The
+  current contents of the specified register will be used as the initial
+  contents of the livemacro, if the register isn't empty.
+
+  If no register is given, the livemacro will be stored in the unnamed
+  register |quotequote|. This can be fragile, since the unnamed register is so
+  prone to change; it is recommended that livemacros are always stored in the
+  named registers |quotea|.
+
+                                                            *:LivemacroUpdate*
+:LivemacroUpdate
+  While writing a livemacro, refresh the preview of its results on the source
+  buffer. This command shouldn't usually be needed, since livemacros refresh
+  their own previews automatically, but it's there and might be useful if
+  livemacros.vim seems to get "stuck".
+
+=============================================================================
+MAPPINGS                                                *livemacros-mappings*
+
+livemacros.vim defines no mappings of its own. It is recommended that you
+define a mapping for the |:Livemacro| command, however: >
+  nnoremap Q :Livemacro<CR>
+<
+
+vim:tw=78:sw=2:ft=help:et

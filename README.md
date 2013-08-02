@@ -52,7 +52,3 @@ livemacros.vim can be installed through [Pathogen](https://github.com/tpope/vim-
 Or [Vundle](https://github.com/gmarik/vundle):
 
     Bundle '00Davo/livemacros.vim'
-
-# TODO
-
-* Write and include Vim `:help` documentation.
