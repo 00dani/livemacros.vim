@@ -1,11 +1,12 @@
 module Window
+  class << self; include Enumerable; end
   def self.each &block
     (0..VIM::Window.count).each do |n|
-      block.call Vim::Window[n], n
+      block.call Vim::Window[n]
     end
   end
   def number
-    Window.each do |w, i|
+    Window.each_with_index do |w, i|
       return i+1 if self == w
     end
   end
