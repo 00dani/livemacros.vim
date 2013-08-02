@@ -45,6 +45,10 @@ COMMANDS                                                *livemacros-commands*
   their own previews automatically, but it's there and might be useful if
   livemacros.vim seems to get "stuck".
 
+  Note that this command forces the macro to be reapplied to the source
+  buffer; normally, livemacros will not reapply unless the buffer has actually
+  been changed.
+
 =============================================================================
 MAPPINGS                                                *livemacros-mappings*
 
