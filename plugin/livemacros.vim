@@ -11,6 +11,7 @@ let g:loaded_livemacros = 1
 exec expand("rubyfile <sfile>:p:h/livemacros.rb")
 
 command -nargs=? Livemacro :call StartLivemacro(<f-args>)
+command LivemacroUpdate :call UpdateLivemacro(1)
 
 function! StartLivemacro(...)
 	if a:0 > 0
@@ -21,8 +22,8 @@ function! StartLivemacro(...)
 	ruby start_livemacro VIM::evaluate('l:register')
 endfunction
 
-function! UpdateLivemacro()
-	ruby update_livemacro
+function! UpdateLivemacro(force)
+	ruby update_livemacro VIM::evaluate('a:force')
 endfunction
 
 function! CleanupLivemacro()

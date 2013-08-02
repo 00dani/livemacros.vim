@@ -34,7 +34,7 @@ end
 
 def bind_livemacro_window_autocmds
   augroup "livemacro" do
-    VIM::command ":autocmd CursorMoved,InsertLeave <buffer> :call UpdateLivemacro()"
+    VIM::command ":autocmd CursorMoved,InsertLeave <buffer> :call UpdateLivemacro(0)"
     VIM::command ":autocmd BufWinLeave <buffer> :call CleanupLivemacro()"
   end
 end
@@ -52,12 +52,13 @@ def start_livemacro register
   lm_win.needs_undo = false
 end
 
-def update_livemacro
+def update_livemacro forced
+  forced = (if forced == 0 then false else true end)
   lm_win = current_window
 
   old = VIM::evaluate("@#{lm_win.register}").chomp
   new = lm_win.buffer[1].chomp
-  if old == new
+  if old == new and not forced
     return
   end
 
