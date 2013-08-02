@@ -12,6 +12,7 @@ exec expand("rubyfile <sfile>:p:h/livemacros.rb")
 
 command -nargs=? Livemacro :call StartLivemacro(<f-args>)
 command LivemacroUpdate :call UpdateLivemacro(1)
+command LivemacroCancel :call CancelLivemacro()
 
 function! StartLivemacro(...)
 	if a:0 > 0
@@ -28,4 +29,8 @@ endfunction
 
 function! CleanupLivemacro()
 	ruby cleanup_livemacro
+endfunction
+
+function! CancelLivemacro()
+	ruby cancel_livemacro
 endfunction

@@ -30,20 +30,29 @@ class Livemacro
     @register = register
     @needs_undo = false
 
+    @initial_content = self.register
+
     macro = self
     @lm_win.extend(Module.new do |m|
       define_method :macro do macro end
     end)
   end
 
+  def register
+    VIM::evaluate "@#{@register}"
+  end
+  def register= value
+    VIM::command ":let @#{@register} = #{value.inspect}"
+  end
+
   def update forced
-    old = VIM::evaluate("@#{@register}").chomp
+    old = register.chomp
     new = @lm_win.buffer[1].chomp
     if old == new and not forced
       return
     end
 
-    VIM::command ":let @#{@register} = #{new.inspect}"
+    self.register = new
     revert
     apply
   end
@@ -61,6 +70,10 @@ class Livemacro
       VIM::command ":undo"
     end
     switch_to_window @lm_win
+  end
+
+  def cancel
+    self.register = @initial_content
   end
 
   def cleanup
@@ -94,6 +107,12 @@ end
 def update_livemacro forced
   forced = (if forced == 0 then false else true end)
   current_window.macro.update forced
+end
+
+def cancel_livemacro
+  lm_win = current_window
+  lm_win.macro.cancel
+  VIM::command "wincmd c"
 end
 
 def cleanup_livemacro
