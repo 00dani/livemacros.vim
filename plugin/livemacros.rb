@@ -1,9 +1,12 @@
 module Window
-  def number
+  def self.each &block
     (0..VIM::Window.count).each do |n|
-      if Vim::Window[n] == self
-        return n+1
-      end
+      block.call Vim::Window[n], n
+    end
+  end
+  def number
+    Window.each do |w, i|
+      return i+1 if self == w
     end
   end
 end
@@ -35,6 +38,9 @@ class Livemacro
     macro = self
     @lm_win.extend(Module.new do |m|
       define_method :macro do macro end
+    end)
+    @source.extend(Module.new do |m|
+      define_method :lm_win do lm_win end
     end)
   end
 
@@ -97,6 +103,18 @@ def bind_livemacro_window_autocmds
   end
 end
 
+def find_livemacro_window
+  current = current_window
+  if current.respond_to? :macro
+    current
+  elsif current.respond_to? :lm_win
+    current.lm_win
+  else
+    Window.each {|w| return w if w.respond_to? :macro}
+    VIM::message "Couldn't find livemacro window!"
+  end
+end
+
 def start_livemacro register
   source = current_window
 
@@ -110,13 +128,13 @@ def update_livemacro forced
 end
 
 def cancel_livemacro
-  lm_win = current_window
+  lm_win = find_livemacro_window
   lm_win.macro.cancel
   VIM::command "wincmd c"
 end
 
 def cleanup_livemacro
-  lm_win = current_window
+  lm_win = find_livemacro_window
   lm_win.macro.cleanup
   augroup "livemacro"
 end
