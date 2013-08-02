@@ -23,6 +23,51 @@ def augroup group, &block
   VIM::command ":augroup END"
 end
 
+class Livemacro
+  def initialize lm_win, source, register
+    @lm_win   = lm_win
+    @source   = source
+    @register = register
+    @needs_undo = false
+
+    macro = self
+    @lm_win.extend(Module.new do |m|
+      define_method :macro do macro end
+    end)
+  end
+
+  def update forced
+    old = VIM::evaluate("@#{@register}").chomp
+    new = @lm_win.buffer[1].chomp
+    if old == new and not forced
+      return
+    end
+
+    VIM::command ":let @#{@register} = #{new.inspect}"
+    revert
+    apply
+  end
+
+  def apply
+    switch_to_window @source
+    VIM::command ":normal! @#{@register}"
+    @needs_undo = true
+    switch_to_window @lm_win
+  end
+
+  def revert
+    switch_to_window @source
+    if @needs_undo
+      VIM::command ":undo"
+    end
+    switch_to_window @lm_win
+  end
+
+  def cleanup
+    @needs_undo = false
+  end
+end
+
 def spawn_livemacro_window register
   VIM::command ":below 1new --livemacro--"
   VIM::command ":setlocal buftype=nofile bufhidden=delete noswapfile nobuflisted noeol"
@@ -39,43 +84,20 @@ def bind_livemacro_window_autocmds
   end
 end
 
-
 def start_livemacro register
   source = current_window
 
   lm_win = spawn_livemacro_window register
-  lm_win.extend(Module.new do |m|
-    define_method :source do source end
-    define_method :register do register end
-    attr_accessor :needs_undo
-  end)
-  lm_win.needs_undo = false
+  Livemacro.new lm_win, source, register
 end
 
 def update_livemacro forced
   forced = (if forced == 0 then false else true end)
-  lm_win = current_window
-
-  old = VIM::evaluate("@#{lm_win.register}").chomp
-  new = lm_win.buffer[1].chomp
-  if old == new and not forced
-    return
-  end
-
-  VIM::command ":let @#{lm_win.register} = #{new.inspect}"
-  switch_to_window lm_win.source
-  if lm_win.needs_undo
-    VIM::command ":undo"
-  else
-    lm_win.needs_undo = true
-  end
-  VIM::command ":normal! @#{lm_win.register}"
-
-  switch_to_window lm_win
+  current_window.macro.update forced
 end
 
 def cleanup_livemacro
   lm_win = current_window
-  lm_win.needs_undo = false
+  lm_win.macro.cleanup
   augroup "livemacro"
 end
