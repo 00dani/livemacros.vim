@@ -48,6 +48,11 @@ COMMANDS                                                *livemacros-commands*
   Note that this command forces the macro to be reapplied to the source
   buffer; normally, livemacros will not reapply unless the buffer has actually
   been changed.
+                                                            *:LivemacroCancel*
+:LivemacroCancel
+  While writing a livemacro, return to the original buffer, deleting the
+  livemacro in progress. The original contents of the specified register (from
+  before the livemacro started) will be restored.
 
 =============================================================================
 MAPPINGS                                                *livemacros-mappings*
