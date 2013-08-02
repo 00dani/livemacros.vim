@@ -52,5 +52,10 @@ livemacros.vim defines no mappings of its own. It is recommended that you
 define a mapping for the |:Livemacro| command, however: >
   nnoremap Q :Livemacro<CR>
 <
+The above mapping requires you to use |quote| to specify a register. You could
+also define a mapping like this to accept a register name after the Q key,
+like |q| does: >
+  nnoremap <expr> Q ":Livemacro ".nr2char(getchar())."<CR>"
+<
 
 vim:tw=78:sw=2:ft=help:et
