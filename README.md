@@ -15,12 +15,14 @@ command to the --livemacro-- buffer, it'll automatically be applied to the
 buffer you started with, giving you a realtime preview of your macro's result.
 
 It's recommended that you set up a mapping to record livemacros. livemacros.vim
-doesn't do this itself, so put something like this in your `.vimrc`:
+won't do this by itself, but you can make it do so with a call like this in
+your `~/.vimrc`:
 
-    :nnoremap Q :Livemacro<CR>
+    :call livemacros#map('Q')
 
-(Q is a good choice since it's extremely similar to q, and honestly who uses
-Ex-mode anyway?)
+Then you can record a livemacro into register `x` using `Qx`. (Q is a good
+choice since it's extremely similar to q, and honestly who uses Ex-mode anyway?
+Still, this is optional just-in-case you do in fact use Ex mode.)
 
 # Macro Registers
 
