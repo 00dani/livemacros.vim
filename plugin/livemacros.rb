@@ -1,8 +1,8 @@
 module Window
   class << self; include Enumerable; end
   def self.each &block
-    (0..VIM::Window.count).each do |n|
-      block.call Vim::Window[n]
+    (0...VIM::Window.count).each do |n|
+      block.call VIM::Window[n]
     end
   end
   def number
@@ -125,8 +125,9 @@ def start_livemacro register
 end
 
 def update_livemacro forced
+  lm_win = find_livemacro_window
   forced = (if forced == 0 then false else true end)
-  current_window.macro.update forced
+  lm_win.macro.update forced
 end
 
 def cancel_livemacro
