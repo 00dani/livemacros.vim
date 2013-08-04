@@ -52,3 +52,8 @@ livemacros.vim can be installed through [Pathogen](https://github.com/tpope/vim-
 Or [Vundle](https://github.com/gmarik/vundle):
 
     Bundle '00Davo/livemacros.vim'
+
+# TODO
+
+* Decide on sane behaviour for the uppercase registers "A to "Z. Right now they
+  behave *super weirdly* if used.
