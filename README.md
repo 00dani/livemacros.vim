@@ -26,10 +26,10 @@ Still, this is optional just-in-case you do in fact use Ex mode.)
 
 # Macro Registers
 
-By default, livemacros.vim will use the unnamed register @" to store your
+By default, livemacros.vim will use the unnamed register `""` to store your
 in-progress macro. This is probably not what you want in a lot of cases, since
 the unnamed register changes *a lot*. It's recommended to use the named
-registers "a to "z for macros instead.
+registers `"a` to `"z` for macros instead.
 
 You can change the register used by a livemacro by passing an argument to
 `:Livemacro`:
@@ -41,8 +41,11 @@ Or by using the `"` prefix:
 
     "q:Livemacro
     " store in register q
-    " or if you bound Q, it's just:
-    "qQ
+
+Or, if you used `livemacros#map()`:
+
+    Qp
+    " store in register p
 
 # Installation
 
