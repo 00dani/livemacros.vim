@@ -100,8 +100,8 @@ end
 
 def bind_livemacro_window_autocmds
   augroup "livemacro" do
-    VIM::command ":autocmd CursorMoved,InsertLeave <buffer> :call UpdateLivemacro(0)"
-    VIM::command ":autocmd BufWinLeave <buffer> :call CleanupLivemacro()"
+    VIM::command ":autocmd CursorMoved,InsertLeave <buffer> :call <SID>UpdateLivemacro(0)"
+    VIM::command ":autocmd BufWinLeave <buffer> :call <SID>CleanupLivemacro()"
   end
 end
 
