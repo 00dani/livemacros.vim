@@ -18,7 +18,7 @@ It's recommended that you set up a mapping to record livemacros. livemacros.vim
 won't do this by itself, but you can make it do so with a call like this in
 your `~/.vimrc`:
 
-    :call livemacros#map('Q')
+    :call livemacros#setup#map('Q')
 
 Then you can record a livemacro into register `x` using `Qx`. (Q is a good
 choice since it's extremely similar to q, and honestly who uses Ex-mode anyway?
@@ -42,7 +42,7 @@ Or by using the `"` prefix:
     "q:Livemacro
     " store in register q
 
-Or, if you used `livemacros#map()`:
+Or, if you used `livemacros#setup#map()`:
 
     Qp
     " store in register p

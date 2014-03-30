@@ -72,7 +72,7 @@ however, so livemacros.vim provides an alternative mapping option.
 You can automatically generate mappings which allow you to specify the
 register name after the binding itself, just like with |q|; for example, Qx
 might start recording a livemacro into register x. To do this: >
-  call livemacros#map('Q')
+  call livemacros#setup#map('Q')
 <
 
 vim:tw=78:sw=2:ft=help:et
