@@ -1,7 +1,7 @@
 exec expand("rubyfile <sfile>:p:h/livemacros.rb")
 
 function! livemacros#map(prefix)
-	call LivemacrosMap(prefix)
+	call livemacros#setup#map(l:prefix)
 endfunction
 
 function! livemacros#start(...)
